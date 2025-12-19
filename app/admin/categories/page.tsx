@@ -16,13 +16,11 @@ export default function AdminCategoriesPage() {
     setLoading(true)
     setError(null)
     try {
-      console.log("[v0] Fetching categories from API...")
       const data = await getCategories()
-      console.log("[v0] Categories fetched:", data)
       setCategories(data)
       setLastFetchedAt(new Date())
     } catch (err: any) {
-      console.error("[v0] Error fetching categories:", err)
+      console.error("Error fetching categories:", err)
       setError(err.message || "Failed to load categories")
     } finally {
       setLoading(false)

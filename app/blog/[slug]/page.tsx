@@ -10,7 +10,6 @@ import type { BlogDto } from "../../../types/blog"
 import { useLanguage } from "../../../lib/language-context"
 import { getBlogTranslation } from "../../../lib/translations"
 import { Calculator, TrendingUp, CheckCircle, Share2, Copy, Check } from "lucide-react"
-// import Head from "next/head"
 
 export default function BlogDetailPage() {
   const params = useParams()

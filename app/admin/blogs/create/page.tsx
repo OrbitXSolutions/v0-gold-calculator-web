@@ -21,11 +21,10 @@ export default function AdminBlogCreatePage() {
       <BlogForm
         mode="create"
         onSaved={(b: BlogDto) => {
-          console.log("[v0] Blog saved, navigating to edit page:", b.id)
           try {
             router.push(`/admin/blogs/${b.id}/edit`)
           } catch (err) {
-            console.error("[v0] Navigation error:", err)
+            console.error("Navigation error:", err)
             // Fallback to blogs list if edit page fails
             router.push("/admin/blogs")
           }

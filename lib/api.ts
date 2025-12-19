@@ -69,7 +69,6 @@ export async function getBlogs(query: BlogListQuery = {}): Promise<PagedResult<B
     }
 
     const url = buildUrl("Blogs", queryParams)
-    console.log("[v0] Fetching blogs from:", url)
 
     const res = await fetch(url, {
       cache: "no-store",
@@ -78,20 +77,17 @@ export async function getBlogs(query: BlogListQuery = {}): Promise<PagedResult<B
         ...authHeaders(),
       },
     })
-    console.log("[v0] Blogs response status:", res.status)
 
     if (!res.ok) {
-      console.error("[v0] Blogs fetch failed with status:", res.status)
       const errorText = await res.text()
-      console.error("[v0] Error response:", errorText)
+      console.error("Blogs fetch failed:", res.status, errorText)
       throw new Error(`Failed to fetch blogs: ${res.status}`)
     }
 
     const data = await handleResponse<PagedResult<BlogDto>>(res)
-    console.log("[v0] Blogs fetched successfully:", data.items?.length ?? 0, "items, totalCount:", data.totalCount)
     return enhancePagedResult(data)
   } catch (err) {
-    console.error("[v0] Error fetching blogs:", err)
+    console.error("Error fetching blogs:", err)
     return enhancePagedResult({
       page: query.page ?? 1,
       pageSize: query.pageSize ?? 20,
@@ -102,10 +98,8 @@ export async function getBlogs(query: BlogListQuery = {}): Promise<PagedResult<B
 }
 
 export async function getBlogById(id: string): Promise<BlogDto> {
-  console.log("[v0] Fetching blog by ID:", id)
   try {
     const url = buildUrl(`Blogs/${id}`)
-    console.log("[v0] Fetching from:", url)
 
     const res = await fetch(url, {
       cache: "no-store",
@@ -114,26 +108,23 @@ export async function getBlogById(id: string): Promise<BlogDto> {
         ...authHeaders(),
       },
     })
-    console.log("[v0] Response status:", res.status)
 
     if (!res.ok) {
       const errorText = await res.text()
-      console.error("[v0] Error fetching blog:", errorText)
+      console.error("Error fetching blog:", errorText)
       throw new Error(`Failed to fetch blog: ${res.status}`)
     }
 
     return handleResponse<BlogDto>(res)
   } catch (err) {
-    console.error("[v0] Error fetching blog by ID:", err)
+    console.error("Error fetching blog by ID:", err)
     throw err
   }
 }
 
 export async function getBlogBySlug(slug: string): Promise<BlogDto> {
-  console.log("[v0] Fetching blog by slug:", slug)
   try {
     const url = buildUrl(`Blogs/slug/${slug}`)
-    console.log("[v0] Fetching from:", url)
 
     const res = await fetch(url, {
       cache: "no-store",
@@ -142,28 +133,24 @@ export async function getBlogBySlug(slug: string): Promise<BlogDto> {
         ...authHeaders(),
       },
     })
-    console.log("[v0] Response status:", res.status)
 
     if (!res.ok) {
       const errorText = await res.text()
-      console.error("[v0] Error fetching blog by slug:", errorText)
+      console.error("Error fetching blog by slug:", errorText)
       throw new Error(`Failed to fetch blog: ${res.status}`)
     }
 
     const result = await handleResponse<BlogDto>(res)
-    console.log("[v0] Blog fetched successfully:", result.title)
     return result
   } catch (err) {
-    console.error("[v0] Error fetching blog by slug:", err)
+    console.error("Error fetching blog by slug:", err)
     throw err
   }
 }
 
 export async function createBlog(input: BlogCreateDto): Promise<BlogDto> {
-  console.log("[v0] Creating blog with data:", input)
   try {
     const url = buildUrl("Blogs")
-    console.log("[v0] POST to:", url)
 
     const res = await fetch(url, {
       method: "POST",
@@ -175,19 +162,17 @@ export async function createBlog(input: BlogCreateDto): Promise<BlogDto> {
       },
       body: JSON.stringify(input),
     })
-    console.log("[v0] Create blog response status:", res.status)
 
     if (!res.ok && res.status !== 201) {
       const errorText = await res.text()
-      console.error("[v0] Error creating blog:", errorText)
+      console.error("Error creating blog:", errorText)
       throw new Error(`Failed to create blog: ${res.status}`)
     }
 
     const result = await handleResponse<BlogDto>(res)
-    console.log("[v0] Blog created successfully with ID:", result.id)
     return result
   } catch (err) {
-    console.error("[v0] Error creating blog:", err)
+    console.error("Error creating blog:", err)
     throw err
   }
 }
@@ -401,11 +386,8 @@ export interface MediaDto {
 
 // Upload a single file (multipart/form-data)
 export async function uploadMedia(file: File): Promise<MediaDto> {
-  console.log("[v0] Uploading media file:", file.name, file.type, file.size)
-
   try {
     const url = buildUrl("Media")
-    console.log("[v0] Upload URL:", url)
 
     const form = new FormData()
     form.append("file", file)
@@ -416,19 +398,16 @@ export async function uploadMedia(file: File): Promise<MediaDto> {
       body: form,
     })
 
-    console.log("[v0] Media upload response status:", res.status)
-
     if (!res.ok) {
       const errorText = await res.text()
-      console.error("[v0] Media upload error:", errorText)
+      console.error("Media upload error:", errorText)
       throw new Error(`Media upload failed: ${res.status} - ${errorText}`)
     }
 
     const result = await handleResponse<MediaDto>(res)
-    console.log("[v0] Media uploaded successfully:", result.url)
     return result
   } catch (err) {
-    console.error("[v0] Media upload exception:", err)
+    console.error("Media upload exception:", err)
     throw err
   }
 }

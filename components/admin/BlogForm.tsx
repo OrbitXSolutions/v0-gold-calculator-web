@@ -51,7 +51,6 @@ export function BlogForm({ mode, blog, onSaved }: BlogFormProps) {
         window.scrollTo({ top: 0, behavior: "smooth" })
         setTimeout(() => router.push("/admin/blogs"), 2000)
       } else if (blog) {
-        console.log("[v0] Saving blog changes...")
         const dto: BlogUpdateDto = {
           title,
           summary: summary || null,
@@ -70,14 +69,13 @@ export function BlogForm({ mode, blog, onSaved }: BlogFormProps) {
         const updated = await updateBlog(blog.id, dto)
         setMessage({ type: "success", text: "Blog updated successfully! Your changes have been saved." })
         window.scrollTo({ top: 0, behavior: "smooth" })
-        console.log("[v0] Blog saved successfully")
         onSaved?.(updated)
         setTimeout(() => setMessage(null), 5000)
       }
     } catch (err: any) {
       setMessage({ type: "error", text: err.message || "Failed to save blog. Please try again." })
       window.scrollTo({ top: 0, behavior: "smooth" })
-      console.error("[v0] Error saving blog:", err)
+      console.error("Error saving blog:", err)
     } finally {
       setLoading(false)
     }
