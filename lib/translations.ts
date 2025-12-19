@@ -32,10 +32,6 @@ export const translations = {
     calculateButton: "Calculate Profit Margin",
     tooltipText: "Margin is calculated based on market price vs shop price.",
 
-    // Karats
-    purity: "purity",
-    grams: "grams",
-
     // Results
     calculationResults: "Calculation Results",
     profitMargin: "Profit Margin",
@@ -115,10 +111,6 @@ export const translations = {
     calculateButton: "احسب هامش الربح",
     tooltipText: "يتم حساب الهامش بناءً على سعر السوق مقابل سعر المحل.",
 
-    // Karats
-    purity: "نقاء",
-    grams: "غرام",
-
     // Results
     calculationResults: "نتائج الحساب",
     profitMargin: "هامش الربح",
@@ -131,9 +123,9 @@ export const translations = {
     totalProfitDesc: "الزيادة الكلية للمحل",
 
     // Margin Status
-    lowMargin: "هامش منخفض - صفقة جيدة",
+    lowMargin: "هامش منخفض – صفقة جيدة",
     mediumMargin: "هامش متوسط",
-    highMargin: "هامش مرتفع - غالي",
+    highMargin: "هامش مرتفع – غالي",
 
     // Detailed Analysis
     officialValue: "القيمة الرسمية للذهب",
