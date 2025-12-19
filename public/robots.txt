@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://goldchecker.ae
+
+# Sitemaps
+Sitemap: https://goldchecker.ae/sitemap.xml
