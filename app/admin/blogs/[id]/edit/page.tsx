@@ -8,9 +8,9 @@ import type { BlogDto } from "../../../../../types/blog"
 import { ArrowLeft } from "lucide-react"
 
 export default function AdminBlogEditPage() {
-  const params = useParams()
+  const params = useParams() as { id: string }
   const router = useRouter()
-  const id = params.id as string
+  const id = params.id
 
   const [blog, setBlog] = useState<BlogDto | null>(null)
   const [loading, setLoading] = useState(true)

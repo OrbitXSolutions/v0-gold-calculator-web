@@ -12,8 +12,8 @@ import { getBlogTranslation } from "../../../lib/translations"
 import { Calculator, TrendingUp, CheckCircle, Share2, Copy, Check } from "lucide-react"
 
 export default function BlogDetailPage() {
-  const params = useParams()
-  const slug = params.slug as string
+  const params = useParams() as { slug: string }
+  const slug = params.slug
   const router = useRouter()
   const [blog, setBlog] = useState<BlogDto | null>(null)
   const [loading, setLoading] = useState(true)

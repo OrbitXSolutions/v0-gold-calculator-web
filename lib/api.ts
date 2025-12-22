@@ -68,13 +68,17 @@ export async function getBlogs(query: BlogListQuery = {}): Promise<PagedResult<B
       ...query,
     }
 
-    const url = buildUrl("Blogs", queryParams)
+    const params = new URLSearchParams()
+    Object.entries(queryParams).forEach(([k, v]) => {
+      if (v === undefined || v === null || v === "") return
+      params.append(k, String(v))
+    })
+    const url = "/api/blog/posts" + (params.toString() ? `?${params.toString()}` : "")
 
     const res = await fetch(url, {
       cache: "no-store",
       headers: {
         Accept: "application/json",
-        ...authHeaders(),
       },
     })
 
@@ -105,7 +109,6 @@ export async function getBlogById(id: string): Promise<BlogDto> {
       cache: "no-store",
       headers: {
         Accept: "application/json",
-        ...authHeaders(),
       },
     })
 
@@ -124,13 +127,12 @@ export async function getBlogById(id: string): Promise<BlogDto> {
 
 export async function getBlogBySlug(slug: string): Promise<BlogDto> {
   try {
-    const url = buildUrl(`Blogs/slug/${slug}`)
+    const url = `/api/blog/post?slug=${encodeURIComponent(slug)}`
 
     const res = await fetch(url, {
       cache: "no-store",
       headers: {
         Accept: "application/json",
-        ...authHeaders(),
       },
     })
 
