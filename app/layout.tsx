@@ -87,8 +87,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html data-theme="goldTheme" lang="en">
       <head>
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-icon.png" />
         <meta name="theme-color" content="#f59e0b" />
       </head>
       <body>

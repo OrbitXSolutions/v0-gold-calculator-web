@@ -12,7 +12,7 @@ import {
   enhancePagedResult,
 } from "../types/blog"
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.goldchecker.ae/api" // Removed /Admin from base URL
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://back.goldchecker.ae/api"
 
 // Internal: build URL with query params
 function buildUrl(path: string, params?: Record<string, any>): string {
@@ -68,12 +68,7 @@ export async function getBlogs(query: BlogListQuery = {}): Promise<PagedResult<B
       ...query,
     }
 
-    const params = new URLSearchParams()
-    Object.entries(queryParams).forEach(([k, v]) => {
-      if (v === undefined || v === null || v === "") return
-      params.append(k, String(v))
-    })
-    const url = "/api/blog/posts" + (params.toString() ? `?${params.toString()}` : "")
+    const url = buildUrl("Blogs", queryParams)
 
     const res = await fetch(url, {
       cache: "no-store",
@@ -127,7 +122,7 @@ export async function getBlogById(id: string): Promise<BlogDto> {
 
 export async function getBlogBySlug(slug: string): Promise<BlogDto> {
   try {
-    const url = `/api/blog/post?slug=${encodeURIComponent(slug)}`
+    const url = buildUrl(`Blogs/slug/${encodeURIComponent(slug)}`)
 
     const res = await fetch(url, {
       cache: "no-store",

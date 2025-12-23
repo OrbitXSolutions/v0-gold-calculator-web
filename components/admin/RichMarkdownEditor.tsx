@@ -89,7 +89,7 @@ export function RichMarkdownEditor({ value, onChange, height = 400 }: RichMarkdo
     try {
       const media = await uploadMedia(file)
       if (media?.url) {
-        const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.goldchecker.ae"
+        const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://back.goldchecker.ae"
         const fullImageUrl = `${backendUrl}${media.url}`
         const altText = media.fileName || file.name
         apply(`![${altText}](${fullImageUrl})`)
