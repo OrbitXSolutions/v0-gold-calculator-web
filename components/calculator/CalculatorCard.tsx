@@ -20,9 +20,21 @@ export function CalculatorCard(props: Props) {
     { label: "24K (99.9% purity)", value: "24k" },
     { label: "22K", value: "22k" },
     { label: "21K", value: "21k" },
-    { label: "20K", value: "20k" },
     { label: "18K", value: "18k" },
     { label: "14K", value: "14k" },
+  ]
+
+  const weightOptions = [
+    { label: "1 gram", value: "1" },
+    { label: "2 grams", value: "2" },
+    { label: "5 grams", value: "5" },
+    { label: "10 grams", value: "10" },
+    { label: "15 grams", value: "15" },
+    { label: "20 grams", value: "20" },
+    { label: "25 grams", value: "25" },
+    { label: "30 grams", value: "30" },
+    { label: "50 grams", value: "50" },
+    { label: "100 grams", value: "100" },
   ]
 
   return (
@@ -66,17 +78,18 @@ export function CalculatorCard(props: Props) {
               </span>{" "}
               {t.step2}
             </label>
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                inputMode="decimal"
-                placeholder="10"
-                value={props.weight}
-                onChange={(e) => props.onWeightChange(e.target.value)}
-                className="flex-1 rounded-md border border-gray-300 bg-gray-100 text-neutral-900 placeholder-neutral-500 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-400"
-              />
-              <span className="text-neutral-600">{t.grams}</span>
-            </div>
+            <select
+              value={props.weight}
+              onChange={(e) => props.onWeightChange(e.target.value)}
+              className="w-full rounded-md border border-gray-300 bg-gray-100 text-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-400"
+            >
+              <option value="">Select weight</option>
+              {weightOptions.map((w) => (
+                <option key={w.value} value={w.value}>
+                  {w.label}
+                </option>
+              ))}
+            </select>
             <p className="mt-2 text-sm text-neutral-600">{t.step2Question}</p>
           </div>
 

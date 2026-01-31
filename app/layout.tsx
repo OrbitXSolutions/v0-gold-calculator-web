@@ -88,6 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html data-theme="goldTheme" lang="en">
       <head>
         <meta name="theme-color" content="#f59e0b" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
       </head>
       <body>
         <LanguageProvider>

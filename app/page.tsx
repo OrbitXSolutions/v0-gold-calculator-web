@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Hero from '@/components/home/Hero'
+import TodayGoldPrices from '@/components/home/TodayGoldPrices'
 import Features from '@/components/home/Features'
 import CTA from '@/components/home/CTA'
 
@@ -21,6 +22,7 @@ export default function HomePage() {
   return (
     <div>
       <Hero />
+      <TodayGoldPrices />
       <Features />
       <CTA />
     </div>

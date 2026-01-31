@@ -295,7 +295,7 @@ body {
 }
 
 .section-spacing {
-  @apply py-12 sm:py-16 lg:py-20;
+  @apply py-6 sm:py-8 lg:py-10;
 }
 
 /* Updating Tiptap editor styles for light theme */
