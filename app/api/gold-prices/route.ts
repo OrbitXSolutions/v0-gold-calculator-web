@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export interface GoldPrice {
   karat: string;
   price: number;
@@ -17,13 +21,34 @@ export interface GoldPricesResponse {
 // Cache the prices for 5 minutes to avoid excessive requests
 let cachedPrices: GoldPricesResponse | null = null;
 let cacheTime: number = 0;
+let cachedDate: string = '';
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+// Get current UAE date string
+function getUAEDateString(): string {
+  return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Dubai' });
+}
 
 export async function GET() {
   try {
+    const currentUAEDate = getUAEDateString();
+    
+    // Invalidate cache if date has changed (new day in UAE)
+    if (cachedDate !== currentUAEDate) {
+      cachedPrices = null;
+      cacheTime = 0;
+      cachedDate = currentUAEDate;
+    }
+    
     // Return cached prices if still valid
     if (cachedPrices && Date.now() - cacheTime < CACHE_DURATION && !cachedPrices.error) {
-      return NextResponse.json(cachedPrices);
+      return NextResponse.json(cachedPrices, {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+        }
+      });
     }
 
     // Fetch from the DCOG API endpoint directly
@@ -74,7 +99,13 @@ export async function GET() {
       cachedPrices = result;
       cacheTime = Date.now();
 
-      return NextResponse.json(result);
+      return NextResponse.json(result, {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+        }
+      });
     } else {
       throw new Error(data.msg || 'Invalid response from DCOG API');
     }
@@ -97,6 +128,13 @@ export async function GET() {
       error: 'Using cached prices - live fetch temporarily unavailable'
     };
 
-    return NextResponse.json(fallbackResult, { status: 200 });
+    return NextResponse.json(fallbackResult, { 
+      status: 200,
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      }
+    });
   }
 }

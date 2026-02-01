@@ -56,8 +56,13 @@ export default function TodayGoldPrices() {
     else setLoading(true)
     
     try {
-      // Fetch from Dubai City of Gold scraping API
-      const response = await fetch('/api/gold-prices')
+      // Fetch from Dubai City of Gold scraping API with cache busting
+      const response = await fetch(`/api/gold-prices?t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        }
+      })
       const data = await response.json()
       setPricesData(data)
       
