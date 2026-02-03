@@ -84,12 +84,12 @@ export const metadata: Metadata = {
       "Calculate gold profit margins instantly with UAE's most accurate gold price calculator. Check live 24K, 22K, 21K, 18K rates and know if you're getting a fair deal.",
     images: [
       {
-        url: "https://goldchecker.ae/og-image.png",
-        secureUrl: "https://goldchecker.ae/og-image.png",
-        width: 1200,
-        height: 630,
+        url: "https://goldchecker.ae/gold-investment.jpg",
+        secureUrl: "https://goldchecker.ae/gold-investment.jpg",
+        width: 1024,
+        height: 1024,
         alt: "GoldChecker - Live Gold Price & Profit Calculator UAE",
-        type: "image/png",
+        type: "image/jpeg",
       },
     ],
   },
@@ -100,7 +100,7 @@ export const metadata: Metadata = {
     title: "GoldChecker - Live Gold Price & Profit Calculator UAE",
     description: "Calculate gold profit margins instantly with UAE's most accurate gold price calculator. Check live 24K, 22K, 21K, 18K rates.",
     images: {
-      url: "https://goldchecker.ae/twitter-image.png",
+      url: "https://goldchecker.ae/gold-investment.jpg",
       alt: "GoldChecker - Live Gold Price & Profit Calculator UAE",
     },
   },
