@@ -27,6 +27,7 @@
     "@tiptap/pm": "^2.27.1",
     "@tiptap/react": "^2.27.1",
     "@tiptap/starter-kit": "^2.27.1",
+    "canvas": "^3.2.1",
     "cheerio": "^1.2.0",
     "class-variance-authority": "0.7.1",
     "clsx": "^2.1.1",
@@ -42,6 +43,7 @@
     "recharts": "^2.15.2",
     "rehype-sanitize": "6.0.0",
     "remark-gfm": "4.0.0",
+    "sharp": "^0.34.5",
     "tailwind-merge": "3.4.0",
     "tailwindcss-animate": "1.0.7",
     "tiptap-markdown": "^0.8.10"

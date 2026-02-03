@@ -1,6 +1,21 @@
-# *
+# GoldChecker - Live Gold Price & Profit Calculator UAE
+# https://goldchecker.ae
+
+# Allow all crawlers
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
 
 # Host
 Host: https://goldchecker.ae

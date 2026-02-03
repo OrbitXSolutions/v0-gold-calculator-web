@@ -78,18 +78,19 @@ export function CalculatorCard(props: Props) {
               </span>{" "}
               {t.step2}
             </label>
-            <select
-              value={props.weight}
-              onChange={(e) => props.onWeightChange(e.target.value)}
-              className="w-full rounded-md border border-gray-300 bg-gray-100 text-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-400"
-            >
-              <option value="">Select weight</option>
-              {weightOptions.map((w) => (
-                <option key={w.value} value={w.value}>
-                  {w.label}
-                </option>
-              ))}
-            </select>
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                inputMode="decimal"
+                placeholder="10"
+                min="0.01"
+                step="0.01"
+                value={props.weight}
+                onChange={(e) => props.onWeightChange(e.target.value)}
+                className="flex-1 rounded-md border border-gray-300 bg-gray-100 text-neutral-900 placeholder-neutral-500 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-400"
+              />
+              <span className="text-neutral-600">grams</span>
+            </div>
             <p className="mt-2 text-sm text-neutral-600">{t.step2Question}</p>
           </div>
 

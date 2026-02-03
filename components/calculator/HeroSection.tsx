@@ -66,8 +66,8 @@ export function HeroSection({
   const [todayData, setTodayData] = useState<TodayVsYesterdayData | null>(null)
   const [chartData, setChartData] = useState<ChartDataPoint[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [showAllHistory, setShowAllHistory] = useState(false)
-  const [chartPeriod, setChartPeriod] = useState<'week' | 'month'>('week')
+  const [historyLimit, setHistoryLimit] = useState(5)
+  const [chartPeriod, setChartPeriod] = useState<'week' | 'month'>('month')
 
   const karats = goldKarats.map((k) => ({
     label: `${k.label} (${k.purity})`,
@@ -98,6 +98,7 @@ export function HeroSection({
   useEffect(() => {
     const fetchChartData = async () => {
       setIsLoading(true)
+      setHistoryLimit(5) // Reset limit when period changes
       try {
         const response = await fetch(`/api/gold/chart-data?karat=all&period=${chartPeriod}`)
         const data: ChartDataResponse = await response.json()
@@ -204,7 +205,7 @@ export function HeroSection({
   const getHistoryRecords = (): HistoryRecord[] => {
     return [...chartData]
       .reverse()
-      .slice(0, showAllHistory ? 30 : 5)
+      .slice(0, historyLimit)
       .map(point => ({
         date: point.date,
         k24: point.rates.k24,
@@ -393,23 +394,14 @@ export function HeroSection({
               </div>
 
               {/* Load More Button */}
-              {chartData.length > 5 && (
+              {chartData.length > 5 && historyLimit < chartData.length && (
                 <div className="border-t border-gray-200">
                   <button
-                    onClick={() => setShowAllHistory(!showAllHistory)}
+                    onClick={() => setHistoryLimit(prev => Math.min(prev + 10, chartData.length))}
                     className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-amber-600 hover:bg-amber-50 transition-colors"
                   >
-                    {showAllHistory ? (
-                      <>
-                        <ChevronUp className="h-4 w-4" />
-                        {language === "ar" ? "عرض أقل" : "Show Less"}
-                      </>
-                    ) : (
-                      <>
-                        <ChevronDown className="h-4 w-4" />
-                        {language === "ar" ? `عرض كل الشهر (${chartData.length} يوم)` : `View Full Month (${chartData.length} days)`}
-                      </>
-                    )}
+                    <ChevronDown className="h-4 w-4" />
+                    {language === "ar" ? "تحميل المزيد" : "Load More"}
                   </button>
                 </div>
               )}
