@@ -75,16 +75,58 @@ export function HeroSection({
     multiplier: k.priceMultiplier,
   }))
 
-  // Fetch today vs yesterday data
+  // Fetch today vs yesterday data and check if sync is needed
   useEffect(() => {
     const fetchTodayData = async () => {
       try {
+        // First, fetch database prices
         const response = await fetch('/api/gold/today-vs-yesterday')
         const data: TodayVsYesterdayData = await response.json()
         setTodayData(data)
+        
         // Notify parent component of the loaded prices
         if (onPricesLoaded && data.today?.rates) {
           onPricesLoaded(data.today.rates)
+        }
+
+        // Then, fetch live prices and compare
+        const liveResponse = await fetch(`/api/gold-prices?t=${Date.now()}`, {
+          cache: 'no-store',
+          headers: { 'Cache-Control': 'no-cache' }
+        })
+        const liveData = await liveResponse.json()
+        
+        if (liveData.prices && liveData.prices.length > 0) {
+          const liveK24 = liveData.prices.find((p: { karat: string }) => p.karat === '24K')?.price
+          const dbK24 = data.today?.rates?.k24
+          
+          // If live price differs from database by more than 0.01, trigger sync
+          if (liveK24 && dbK24 && Math.abs(liveK24 - dbK24) > 0.01) {
+            console.log(`[Price Sync] Mismatch detected - Live: ${liveK24}, DB: ${dbK24}. Triggering sync...`)
+            fetch('/api/gold-prices/sync', { method: 'POST' }).catch(err => 
+              console.log('Background sync attempted:', err)
+            )
+            
+            // Update local state with live prices
+            const updatedData = {
+              ...data,
+              today: {
+                ...data.today,
+                rates: {
+                  k24: liveData.prices.find((p: { karat: string }) => p.karat === '24K')?.price || data.today.rates.k24,
+                  k22: liveData.prices.find((p: { karat: string }) => p.karat === '22K')?.price || data.today.rates.k22,
+                  k21: liveData.prices.find((p: { karat: string }) => p.karat === '21K')?.price || data.today.rates.k21,
+                  k18: liveData.prices.find((p: { karat: string }) => p.karat === '18K')?.price || data.today.rates.k18,
+                }
+              }
+            }
+            setTodayData(updatedData)
+            
+            // Notify parent with updated prices
+            if (onPricesLoaded) {
+              onPricesLoaded(updatedData.today.rates)
+            }
+          }
         }
       } catch (error) {
         console.error('Error fetching today vs yesterday data:', error)
